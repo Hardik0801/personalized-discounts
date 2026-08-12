@@ -41,7 +41,7 @@ def preprocess_data(df, target_column="isFraud"):
 
     categorical_maps = {}
     for col in categorical_cols:
-        encoded = features[col].astype(str).fillna("__missing__")
+        encoded = features[col].fillna("__missing__").astype(str)
         categories = sorted(encoded.unique())
         mapping = {value: idx for idx, value in enumerate(categories)}
         categorical_maps[col] = mapping
@@ -80,7 +80,7 @@ def preprocess_new(df_new, train_columns, numeric_medians, categorical_maps):
 
     for col, mapping in categorical_maps.items():
         if col in processed.columns:
-            encoded = processed[col].astype(str).fillna("__missing__")
+            encoded = processed[col].fillna("__missing__").astype(str)
             processed[col] = encoded.map(mapping).fillna(-1).astype(float)
 
     return processed.astype(float)
